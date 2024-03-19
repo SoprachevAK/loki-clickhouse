@@ -1,0 +1,12 @@
+# docker compose down; docker compose up --build --remove-orphans;
+
+version: "3.7"
+
+services:
+  app:
+    container_name: app
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/app/src

@@ -1,0 +1,40 @@
+# docker compose down; docker compose up --build --remove-orphans;
+
+version: "3.7"
+
+services:
+  clickhouse:
+    container_name: clickhouse
+    restart: always
+    image: clickhouse/clickhouse-server:24.1.2.5-alpine
+    volumes:
+      - ../clickhouse-loki/data:/var/lib/clickhouse
+      - ../clickhouse-loki/log:/var/log/clickhouse-server
+    ports:
+      - '8123:8123'
+    environment:
+      - CLICKHOUSE_PASSWORD
+
+  app:
+    container_name: app
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 9000:3000
+    environment:
+      - CLICKHOUSE_HOST=http://clickhouse:8123
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD
+
+  grafana:
+    container_name: grafana
+    restart: always
+    image: grafana/grafana:10.3.3
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning/
+      - ../grafana/data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD
+    ports:
+      - "9003:3000"

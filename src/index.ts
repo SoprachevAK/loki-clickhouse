@@ -33,7 +33,7 @@ hono.post('/loki/api/v1/push',
 
       const { streams } = result.data;
 
-      insert('logs', streams.flatMap(stream =>
+      insert('logs', ...streams.flatMap(stream =>
         stream.values.map(v => ({
           source: stream.stream.source,
           time: v[0],

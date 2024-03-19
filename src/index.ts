@@ -70,7 +70,7 @@ await clickhouse.exec({
   )
   engine = MergeTree()
   order by time
-  TTL time + INTERVAL 3 DAY
+  TTL toDateTime(time) + INTERVAL 3 DAY
   `})
 
 console.log(`Server is listening on port ${Bun.env.PORT}`);

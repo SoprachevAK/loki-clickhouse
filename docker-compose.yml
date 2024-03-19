@@ -26,6 +26,7 @@ services:
       - CLICKHOUSE_HOST=http://clickhouse:8123
       - CLICKHOUSE_USER=default
       - CLICKHOUSE_PASSWORD
+      - PORT=3000
 
   grafana:
     container_name: grafana
